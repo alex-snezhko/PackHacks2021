@@ -1,0 +1,22 @@
+.event-info {
+    background-color: #e0ffe0;
+    padding: 10px;
+    width: 600px;
+}
+
+.event-info-img-container {
+    float: left;
+    width: 120px;
+    height: 120px;
+    border: 1px solid gray;
+    position: relative;
+}
+
+.event-info-img-container img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 120px;
+    max-height: 120px;
+}
