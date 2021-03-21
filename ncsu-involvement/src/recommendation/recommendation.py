@@ -53,8 +53,8 @@ def recommendation(interests):
 
     recommendation = tuple(recommendation)
     return json.dumps(recommendation), 201
-  
-  if __name__ == '__main__':
+
+if __name__ == '__main__':
     data=pd.read_json('clubs_preprocessed.json')
     print('Server Started...')
     app.run(host='0.0.0.0')
