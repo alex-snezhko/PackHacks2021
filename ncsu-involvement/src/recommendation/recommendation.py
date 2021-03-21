@@ -44,12 +44,14 @@ def recommendation(interests):
     for skill in user_skills:
         lemma_skills.add(lemma(skill).lower())
     recommendation = set()
+    image = set()
     for i in range(1,data.shape[0]):
         sent =nltk.word_tokenize(data['preprocessed'][i])
         
         for word in sent: 
             if word in lemma_skills:
-                recommendation.add(data[data.index== i-1]['name'].values[0])
+                recommendation.add(data[data.index== i-1]['name'].values[0], data[data.index== i-1]['desc'].values[0],data[data.index== i-1]['link'].values[0],
+                data[data.index== i-1]['img'].values[0])
 
     recommendation = tuple(recommendation)
     return json.dumps(recommendation), 201
