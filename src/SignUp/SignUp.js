@@ -16,7 +16,7 @@ export function SignUp(props) {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ username, password })
             }).then(res => res.json()).then(result => {
-                if (!result.success) {
+                if (result.result !== 200) {
                     setError("An account with this username already exists");
                 } else {
                     history.push("/login");

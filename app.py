@@ -1,19 +1,28 @@
 from Manager import Manager
-from User import User
-from Organization import Organization
-from Event import Event
+# from User import User
+# from Organization import Organization
+# from Event import Event
 import json
 from flask import Flask, flash, redirect, render_template, request, session, abort, jsonify
 from flask_cors import CORS
+from nltk.stem import WordNetLemmatizer
+from nltk import pos_tag
+from nltk.corpus import wordnet
+import nltk
+import pandas as pd
 
-app = Flask(__name__)
+nltk.download('punkt')
+nltk.download('averaged_perceptron_tagger')
+nltk.download('wordnet')
+
+app = Flask(__name__, static_folder='./build', static_url_path='/')
 CORS(app)
 
 man = Manager()
 
 @app.route("/")
 def index():
-    return "/login"
+    return app.send_static_file('index.html')
 
 @app.route("/login", methods=["POST"])
 def login():
@@ -36,9 +45,11 @@ def register():
     # Otherwise, create the new user and send them back to login
     if request.is_json:
         user_data = request.get_json()
+        print(user_data)
 
         if man.getUserByName(user_data["username"]) is None:
-            user = User(user_data["username"], user_data["password"])
+            # user = User(user_data["username"], user_data["password"])
+            user = {'username': user_data["username"], 'password': user_data["password"], 'department': None, 'interests': [] }
             man.users.append(user)
             man.save()
             return jsonify(**{'result': 200, 'data': {'message': 'user successfully registered'}})
@@ -52,9 +63,50 @@ def register():
 #     current_user = None
 #     return jsonify(**{'result': 200, 'data': {'message': 'logout success'}})
 
+def lemma(input_txt):
+    def wordnet_pos(pos_tag):
+    
+        '''Tags for the words in articles '''
+        '''Used for lemmatizer '''
+        if pos_tag.startswith('J'):
+            return wordnet.ADJ
+        elif pos_tag.startswith('V'):
+            return wordnet.VERB
+        elif pos_tag.startswith('N'):
+            return wordnet.NOUN
+        elif pos_tag.startswith('R'):
+            return wordnet.ADV
+        else:
+            return wordnet.NOUN
+
+
+    pos_tags = pos_tag(nltk.word_tokenize(input_txt))
+
+    #lemmatizer(grouping together the different forms of a word so there could be analyzed as a single item)
+    input_txt = [WordNetLemmatizer().lemmatize(t[0], wordnet_pos(t[1])) for t in pos_tags]
+
+    return ' '.join(input_txt)
+
 @app.route("/recommendedOrganizations/<username>", methods=["GET"])
 def getRecommendedOrgs(username):
-    return man.getUserByName(username).getRecommendedOrganizations()
+    user = man.getUserByName(username)
+    user_skills = user['interests']
+    print("Skills", user_skills)
+    # user_skills = request.json
+    lemma_skills = set()
+    for skill in user_skills:
+        lemma_skills.add(lemma(skill).lower())
+    recommendation = set()
+    for i in range(1,data.shape[0]):
+        sent =nltk.word_tokenize(data['preprocessed'][i])
+        
+        for word in sent: 
+            if word in lemma_skills:
+                recommendation.add(data[data.index== i-1]['name'].values[0])
+
+    recommendation = tuple(recommendation)
+    return json.dumps(recommendation), 201
+    # return man.getUserByName(username).getRecommendedOrganizations()
 
 @app.route("/recommendedEvents/<username>", methods=["GET"])
 def getRecommendedEvents(username):
@@ -83,15 +135,21 @@ def setUserInfo(username):
         user = man.getUserByName(username)
         if user is not None:
             # TODO this might not work the way I intend it to
-            user.interests = user_data['interests']
-            user.department = user_data['department']
+            user['interests'] = user_data['interests']
+            user['department'] = user_data['department']
             man.save()
             return jsonify(**{'result': 200, 'data': {'message': 'user successfully registered'}})
         else:
             return jsonify(**{'result': 400, 'data': {'message': 'username does not exist'}})
     else:
         return jsonify(**{'result': 400, 'data': {'message': 'request was not json'}})
+    
 
+@app.errorhandler(404)
+def not_found(e):
+    return app.send_static_file('index.html')
 
+data=pd.read_json('clubs_preprocessed.json')
 if __name__ == "__main__":
-    app.run(ssl_context='adhoc')
+    # app.run(host='0.0.0.0', debug=False, port=os.environ.get('PORT', 80))
+    app.run()
