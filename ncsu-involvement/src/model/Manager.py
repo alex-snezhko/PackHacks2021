@@ -1,3 +1,7 @@
+import json
+from Organization import Organization
+from User import User
+
 class Manager:
 
     def __init__(self):
@@ -16,10 +20,29 @@ class Manager:
         pass
 
     def load_users(self):
-        return []
+        with open("users.json", "r") as myfile:
+            data = myfile.read()
+
+        user_array = json.loads(data)
+        users = []
+
+        for user in user_array:
+            users.append(User(user["username"], user["password"]))
+
+        return users
 
     def load_organizations(self):
-        return []
+        with open("clubs.json", "r") as myfile:
+            data = myfile.read()
+
+        orgs = json.loads(data)
+
+        organizations = []
+
+        for org in orgs:
+            organizations.append(Organization(org["name"], org["desc"]))
+
+        return organizations
 
     def load_events(self):
         return []
@@ -30,9 +53,9 @@ class Manager:
                     return user
         return None
 
-    def getOrgById(self, orgid):
+    def getOrgByName(self, name):
         for organization in self.organizations:
-            if organization.orgid == orgid:
+            if organization.name == name:
                     return organization
         return None
 
