@@ -1,18 +1,24 @@
 import React from "react";
+import { AiFillTags } from "react-icons/ai";
+import { BsFillInboxesFill } from "react-icons/bs";
 
-import "./OrgInfo.css";
+// import "./OrgInfo.css";
+import "../EventInfo/EventInfo.css";
 
 export const OrgInfo = ({ name, imgurl, orgurl, category, tags }) => (
-    <div className="org-info">
+    <div className="event-info">
         <a href={orgurl}>
-            <div className="org-info-img-container">
+            <div className="event-info-img-container">
                 <img src={imgurl} alt={name} />
             </div>
         </a>
-        <a href={orgurl}>
-            <h3>{name}</h3>
-        </a>
-        <h4>Category: {category}</h4>
-        <h4>Tags: {tags}</h4>
+        <div style={{marginLeft: "15px"}}>
+            <a href={orgurl}>
+                <h3>{name}</h3>
+            </a>
+            <p><AiFillTags /><b>Category:</b> {category}</p>
+            <p><BsFillInboxesFill /><b>Tags:</b> {tags.join(", ")}</p>
+        </div>
+        
     </div>
 );

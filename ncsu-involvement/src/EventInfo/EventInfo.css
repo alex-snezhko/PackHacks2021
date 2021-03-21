@@ -1,7 +1,11 @@
 .event-info {
-    background-color: #e0ffe0;
+    margin: 10px;
+    display: flex;
+    align-items: center;
+    background-color: #fdd;
+    border-radius: 10px;
     padding: 10px;
-    width: 600px;
+    width: 500px;
 }
 
 .event-info-img-container {
@@ -19,4 +23,26 @@
     transform: translate(-50%, -50%);
     max-width: 120px;
     max-height: 120px;
+}
+
+.event-info a {
+    color: black;
+}
+
+.event-info a:hover {
+    color: #555;
+}
+
+.event-info h3 {
+    font-size: 20px;
+    margin-top: 0;
+}
+
+.event-info p {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.event-info b {
+    margin-left: 5px;
 }

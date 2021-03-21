@@ -1,4 +1,6 @@
 import React from "react";
+import { AiFillCalendar, AiFillClockCircle } from "react-icons/ai";
+import { HiLocationMarker } from "react-icons/hi";
 
 import "./EventInfo.css";
 
@@ -9,11 +11,13 @@ export const EventInfo = ({ name, imgurl, url, date, time, location }) => (
                 <img src={imgurl} alt={name} />
             </div>
         </a>
-        <a href={url}>
-            <h3>{name}</h3>
-        </a>
-        <h4>Date: {date}</h4>
-        <h4>Time: {time}</h4>
-        <h4>Location: {location}</h4>
+        <div style={{marginLeft: "15px"}}>
+            <a href={url}>
+                <h3>{name}</h3>
+            </a>
+            <p><AiFillCalendar /><b>Date:</b> {date}</p>
+            <p><AiFillClockCircle /><b>Time:</b> {time}</p>
+            <p><HiLocationMarker /><b>Location:</b> {location}</p>
+        </div>
     </div>
 );

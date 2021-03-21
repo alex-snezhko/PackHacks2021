@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
+import "./Login.css";
+
 export function Login({ setToken }) {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -13,7 +15,7 @@ export function Login({ setToken }) {
             body: JSON.stringify({ username, password })
         }).then(res => res.json()).then(token => setToken(token));
     }
-
+    
     return (
         <div id="login-block">
             <h2>Log In</h2>
@@ -26,12 +28,16 @@ export function Login({ setToken }) {
                     onChange={e => setUsername(e.target.value)}
                 />
 
+                <br />
+
                 <input
                     type="password"
                     placeholder="Password"
                     value={password}
                     onChange={e => setPassword(e.target.value)}
                 />
+
+                <br />
 
                 <input type="submit" value="Log In" />
             </form>

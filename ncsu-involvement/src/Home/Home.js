@@ -3,6 +3,8 @@ import React from "react";
 import { OrgInfo } from "../OrgInfo/OrgInfo";
 import { EventInfo } from "../EventInfo/EventInfo";
 
+import "./Home.css"
+
 export function Home(props) {
     const recommendedOrgs = [
         {
@@ -34,12 +36,16 @@ export function Home(props) {
     // const recommendedOrgs = await fetch("/recommended-orgs").then(res => res.json());
     return (
         <React.Fragment>
-            <h2>Recommended Organizations</h2>
+            <h2><span style={{color: "#c00"}}>Organizations</span> You May Be Interested In</h2>
             <hr />
-            {recommendedOrgs.map(org => <OrgInfo key={org.name} {...org} />)}
-            <h2>Upcoming Events</h2>
+            <div className="flex-area">
+                {recommendedOrgs.map(org => <OrgInfo key={org.name} {...org} />)}
+            </div>
+            <h2><span style={{color: "#c00"}}>Upcoming Events</span> You May Be Interested In</h2>
             <hr />
-            {recommendedEvents.map(event => <EventInfo key={event.name} {...event} />)}
+            <div className="flex-area">
+                {recommendedEvents.map(event => <EventInfo key={event.name} {...event} />)}
+            </div>
         </React.Fragment>
     );
 }
