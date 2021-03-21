@@ -1,2 +1,0 @@
-FLASK_APP=APIController.py
-FLASK_ENV=development
