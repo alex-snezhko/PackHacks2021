@@ -1,7 +1,8 @@
 import React from "react";
 import { useState } from "react";
 
-import { Interests } from "../Interests/Interests";
+import { InterestsInput } from "../InterestsInput/InterestsInput";
+import "./CreateProfile.css";
 
 const DEFAULT_SELECT = "-- Select an option --";
 const DEPARTMENTS = {
@@ -89,46 +90,80 @@ const DEPARTMENTS = {
 
 
 export function CreateProfile(props) {
-    const [college, setCollege] = useState(null);
-    const [interests, setInterests] = useState(null);
+    const [college, setCollege] = useState(DEFAULT_SELECT);
+    const [interests, setInterests] = useState([]);
+    const [interestInputValue, setInterestInputValue] = useState("");
 
     function handleFormSubmit(event) {
+        console.log("submitted");
+    }
 
+    function handleAddInterest(e) {
+        e.preventDefault();
+        if (interestInputValue.length !== 0 && !interests.includes(interestInputValue)) {
+            setInterests(interests.concat(interestInputValue));
+        }
+        setInterestInputValue("");
+    }
+
+    function handleRemoveInterest(e, interest) {
+        e.preventDefault();
+        const newInterests = interests.slice();
+        const i = newInterests.findIndex(x => x === interest);
+        newInterests.splice(i, 1);
+        setInterests(newInterests);
     }
 
 
     return (
         <form onSubmit={handleFormSubmit}>
             <h1>Edit Profile</h1>
-            <div class="input-area">
+            <div className="input-area">
                 <label>
                     College:
                     <select name="college" value={college} onChange={e => setCollege(e.target.value)}>
-                        <option value={null}>{DEFAULT_SELECT}</option>
+                        <option value={DEFAULT_SELECT}>{DEFAULT_SELECT}</option>
                         {Object.keys(DEPARTMENTS).map(coll => <option value={coll} key={coll}>{coll}</option>)}
                     </select>
                 </label>
             </div>
 
-            <div class="input-area">
-                {college && (
+            <div className="input-area">
+                {/* {college && ( */}
                     <label>
                         Department:
-                        <select disabled={college === null} name="department">
-                            <option value={null}>{DEFAULT_SELECT}</option>
-                            {DEPARTMENTS[college].map(dep => <option value={dep} key={dep}>{dep}</option>)}
+                        <select disabled={college === DEFAULT_SELECT} name="department">
+                            <option value={DEFAULT_SELECT}>{DEFAULT_SELECT}</option>
+                            {DEPARTMENTS[college]?.map(dep => <option value={dep} key={dep}>{dep}</option>)}
                         </select>
                     </label>
-                )}
+                {/* )} */}
             </div>
 
-            <div class="input-area">
+            <hr />
+
+            <div className="input-area">
                 <label>
                     Interests:
-                    <Interests />
-                    {/* <input type="text" value={interests} onChange={e => setInterests(e.target.value)} /> */}
+                    <ul>
+                        {interests.map(int => (
+                            <li key={int}>{int}<button className="remove-button" onClick={e => handleRemoveInterest(e, int)}>&#10006;</button></li>
+                        ))}
+                    </ul>
+                    <div style={{display: "flex", alignItems: "flex-start"}}>
+                        <InterestsInput
+                            value={interestInputValue}
+                            onChange={e => setInterestInputValue(e.target.value)}
+                        />
+                        <button id="add-interest" onClick={handleAddInterest}>+</button>
+                        {/* <input type="text" value={interests} onChange={e => setInterests(e.target.value)} /> */}
+                    </div>
                 </label>
             </div>
+
+            <hr />
+
+            <input type="submit" value="Save" />
         </form>
     );
 }

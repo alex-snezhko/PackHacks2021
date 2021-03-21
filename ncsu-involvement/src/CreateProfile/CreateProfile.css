@@ -1,0 +1,23 @@
+.input-area {
+    margin-top: 15px;
+}
+
+.remove-button {
+    background-color: red;
+    margin-left: 10px;
+    border: none;
+    color: white;
+    border-radius: 15px;
+    font-size: 13px;
+    padding: 3px 5px 3px 5px;
+}
+
+#add-interest {
+    background-color: #22e722;
+    margin-left: 10px;
+    border: none;
+    color: black;
+    border-radius: 15px;
+    font-size: 13px;
+    padding: 3px 7px 3px 7px;
+}
