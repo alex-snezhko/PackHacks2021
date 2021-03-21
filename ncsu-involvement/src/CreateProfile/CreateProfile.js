@@ -89,13 +89,19 @@ const DEPARTMENTS = {
 };
 
 
-export function CreateProfile(props) {
+export function CreateProfile({ userLoggedIn }) {
     const [college, setCollege] = useState(DEFAULT_SELECT);
     const [interests, setInterests] = useState([]);
+    const [department, setDepartment] = useState(DEFAULT_SELECT);
     const [interestInputValue, setInterestInputValue] = useState("");
 
     function handleFormSubmit(event) {
-        console.log("submitted");
+        event.preventDefault();
+        fetch(`/setUserInfo/${userLoggedIn}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ department, interests })
+        })
     }
 
     function handleAddInterest(e) {
@@ -132,7 +138,12 @@ export function CreateProfile(props) {
                 {/* {college && ( */}
                     <label>
                         Department:
-                        <select disabled={college === DEFAULT_SELECT} name="department">
+                        <select
+                            disabled={college === DEFAULT_SELECT}
+                            name="department"
+                            value={department}
+                            onChange={e => setDepartment(e.target.value)}
+                        >
                             <option value={DEFAULT_SELECT}>{DEFAULT_SELECT}</option>
                             {DEPARTMENTS[college]?.map(dep => <option value={dep} key={dep}>{dep}</option>)}
                         </select>

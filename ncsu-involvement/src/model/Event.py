@@ -5,14 +5,13 @@ BASE_LINK = "getinvolved.ncsu.edu/events/"
 
 class Event:
 
-    def __init__(self, name, description, organization, starttime, endtime, eventid, location):
+    def __init__(self, name, description, time, location, link, imglink):
         self.name = name
         self.description = description
-        self.organization = organization
-        self.starttime = starttime
-        self.endtime = endtime
-        self.eventid = eventid
+        self.time = time
         self.location = location
+        self.link = link
+        self.imglink = imglink
 
-    def getlink(self):
-        return BASE_LINK + self.eventid
+    # def getlink(self):
+    #     return BASE_LINK + self.eventid

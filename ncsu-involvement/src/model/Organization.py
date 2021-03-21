@@ -1,10 +1,12 @@
-BASE_LINK = "getinvolved.ncsu.edu/organization/"
+# BASE_LINK = "getinvolved.ncsu.edu/organization/"
 
 class Organization:
 
-    def __init__(self, name, description):
+    def __init__(self, name, description, link, img):
         self.name = name
         self.description = description
+        self.link = link
+        self.img = img
     #     self.category = category
     #     self.orgid = orgid
     #     self.email = email

@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import Autosuggest from 'react-autosuggest';
 
 const INTERESTS = [
-    "Politics/Advocacy", "Leadership", "Student Government", "Greek Life", "Religion",
-    "Sports & Recreation", "Technology", "Gaming", "Arts"
+    "Politics", "Leadership", "Student Government", "Greek Life", "Religion",
+    "Sports", "Technology", "Gaming", "Arts", "Service"
 ].sort();
 
 const getSuggestions = value => {
@@ -16,22 +16,15 @@ const getSuggestions = value => {
 };
 
 const getSuggestionValue = suggestion => suggestion;
-
 const renderSuggestion = suggestion => suggestion;
-// (
-//     <div>
-//         {suggestion}
-//     </div>
-// );
 
 export class InterestsInput extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            // value: '',
-            suggestions: []
-            // suggestions: INTERESTS
+            // suggestions: []
+            suggestions: INTERESTS
         };
     }
 
@@ -48,8 +41,8 @@ export class InterestsInput extends React.Component {
     };
 
     onSuggestionsClearRequested = () => {
-        // this.setState({ suggestions: INTERESTS });
-        this.setState({ suggestions: [] });
+        this.setState({ suggestions: INTERESTS });
+        // this.setState({ suggestions: [] });
     };
 
     render() {
@@ -70,7 +63,7 @@ export class InterestsInput extends React.Component {
                 getSuggestionValue={getSuggestionValue}
                 renderSuggestion={renderSuggestion}
                 // shouldRenderSuggestions={() => true}
-                alwaysRenderSuggestions={true}
+                // alwaysRenderSuggestions={true}
                 inputProps={inputProps}
             />
         );
