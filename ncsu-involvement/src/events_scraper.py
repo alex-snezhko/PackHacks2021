@@ -25,18 +25,15 @@ options.add_argument("--test-type")
 options.binary_location = "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe"
 driver = wd.Chrome(executable_path = "C:/Users/selen/chromedriver/chromedriver.exe", options = options)
 
-# name desc time location link img
-
 links = []
 database = []
-for i in range(43, 109):
+for i in range(109):
     with open('event_links.txt', 'r') as infile:
         links = infile.readlines()
 
     links2 = []
     for j in range(len(links)):
         links2.append(links[j].rstrip())
-
     links = links2
 
     print("\ncurrent: \n", i, "/", 108, "\n")
