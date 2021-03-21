@@ -15,11 +15,11 @@ export function Home({ userLoggedIn }) {
             headers: { "Access-Control-Allow-Origin": "http://localhost:3000" }
         })
             .then(res => res.json())
-            .then(orgs => setRecommendedOrgs(orgs));
+            .then(orgs => setRecommendedOrgs(orgs.data));
 
         fetch(`/recommendedOrganizations/${userLoggedIn}`)
             .then(res => res.json())
-            .then(events => setRecommendedEvents(events));
+            .then(events => setRecommendedEvents(events.data));
     }, []);
 
 

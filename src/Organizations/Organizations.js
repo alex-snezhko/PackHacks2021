@@ -8,9 +8,9 @@ export function Organizations() {
     const [relevantOrgs, setRelevantOrgs] = useState([]);
 
     function getOrgs(search) {
-        fetch(`/searchOrganizations/${search}`)
+        fetch(search === "" ? "/searchOrganizationsAll" : `/searchOrganizations/${search}`)
             .then(res => res.json())
-            .then(events => setRelevantOrgs(events));
+            .then(events => setRelevantOrgs(events.data));
     }
     useEffect(() => {
         getOrgs("");

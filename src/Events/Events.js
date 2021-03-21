@@ -9,9 +9,9 @@ export function Events() {
     const [relevantEvents, setRelevantEvents] = useState([]);
 
     function getEvents(search) {
-        fetch(`/searchEvents/${search}`)
+        fetch(search === "" ? "/searchEventsAll" : `/searchEvents/${search}`)
             .then(res => res.json())
-            .then(events => setRelevantEvents(events));
+            .then(events => setRelevantEvents(events.data));
     }
     // get all of the events with search string "" when page gets here
     useEffect(() => {

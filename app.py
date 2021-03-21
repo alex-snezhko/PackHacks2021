@@ -89,43 +89,147 @@ def lemma(input_txt):
 
 @app.route("/recommendedOrganizations/<username>", methods=["GET"])
 def getRecommendedOrgs(username):
+
     user = man.getUserByName(username)
     user_skills = user['interests']
-    print("Skills", user_skills)
-    # user_skills = request.json
     lemma_skills = set()
     for skill in user_skills:
         lemma_skills.add(lemma(skill).lower())
     recommendation = set()
-    for i in range(1,data.shape[0]):
-        sent =nltk.word_tokenize(data['preprocessed'][i])
-        
+    image = set()
+    for i in range(1,data_clubs.shape[0]):
+        sent =nltk.word_tokenize(data_clubs['preprocessed'][i])
+
         for word in sent: 
             if word in lemma_skills:
-                recommendation.add(data[data.index== i-1]['name'].values[0])
+                recommendation.add(i)
 
-    recommendation = tuple(recommendation)
-    return json.dumps(recommendation), 201
+    res = []
+    for i, idx in enumerate(recommendation):
+        res.append({ 'name': data_clubs[data_clubs.index== idx]['name'].values[0], 'description':data_clubs[data_clubs.index== idx]['desc'].values[0],
+                'link':data_clubs[data_clubs.index== idx]['link'].values[0],'img':data_clubs[data_clubs.index== idx]['img'].values[0]})
+
+    return jsonify(**{'result': 200, 'data': res})
+    # return json.dumps(res), 201
     # return man.getUserByName(username).getRecommendedOrganizations()
 
 @app.route("/recommendedEvents/<username>", methods=["GET"])
 def getRecommendedEvents(username):
-    return man.getUserByName(username).getRecommendedEvents()
+    user = man.getUserByName(username)
+    user_skills = user['interests']
+    lemma_skills = set()
+    for skill in user_skills:
+        lemma_skills.add(lemma(skill).lower())
+    recommendation = set()
+    image = set()
+    for i in range(1,data_events.shape[0]):
+        sent =nltk.word_tokenize(data_events['preprocessed'][i])
+
+        for word in sent: 
+            if word in lemma_skills:
+                recommendation.add(i)
+
+    res = []
+    for i, idx in enumerate(recommendation):
+        res.append({ 'name': data_events[data_events.index== idx]['name'].values[0], 'description':data_events[data_events.index== idx]['desc'].values[0],
+                'link':data_events[data_events.index== idx]['link'].values[0],'img':data_events[data_events.index== idx]['img'].values[0],'time':data_events[data_events.index== idx]['time'].values[0], 'loc':data_events[data_events.index== idx]['loc'].values[0] })
+
+    # return json.dumps(res), 201
+    return jsonify(**{'result': 200, 'data': res})
+    # return man.getUserByName(username).getRecommendedEvents()
 
 @app.route("/searchOrganizations/<search_query>", methods=["GET"])
 def getSearchedOrganizations(search_query):
-    # **************************
-    # TODO it seems that there is an issue serializing the model classes (Event, Organization, User). Figure out how to do this.
-    # **************************
+    # user = man.getUserByName(username)
+    user_skills = [search_query]
+    lemma_skills = set()
+    for skill in user_skills:
+        lemma_skills.add(lemma(skill).lower())
+    recommendation = set()
+    image = set()
+    for i in range(1,data_clubs.shape[0]):
+        sent =nltk.word_tokenize(data_clubs['preprocessed'][i])
 
+        for word in sent: 
+            if word in lemma_skills:
+                recommendation.add(i)
 
-    # TODO return all organizations that reasonably match search query
-    pass
+    res = []
+    for i, idx in enumerate(recommendation):
+        res.append({ 'name': data_clubs[data_clubs.index== idx]['name'].values[0], 'description':data_clubs[data_clubs.index== idx]['desc'].values[0],
+                'link':data_clubs[data_clubs.index== idx]['link'].values[0],'img':data_clubs[data_clubs.index== idx]['img'].values[0]})
+
+    return jsonify(**{'result': 200, 'data': res})
+
+@app.route("/searchOrganizationsAll", methods=["GET"])
+def getSearchedOrganizationsAll():
+    # user = man.getUserByName(username)
+    user_skills = []
+    lemma_skills = set()
+    for skill in user_skills:
+        lemma_skills.add(lemma(skill).lower())
+    recommendation = set()
+    image = set()
+    for i in range(1,data_clubs.shape[0]):
+        sent =nltk.word_tokenize(data_clubs['preprocessed'][i])
+
+        for word in sent: 
+            recommendation.add(i)
+
+    res = []
+    for i, idx in enumerate(recommendation):
+        res.append({ 'name': data_clubs[data_clubs.index== idx]['name'].values[0], 'description':data_clubs[data_clubs.index== idx]['desc'].values[0],
+                'link':data_clubs[data_clubs.index== idx]['link'].values[0],'img':data_clubs[data_clubs.index== idx]['img'].values[0]})
+
+    return jsonify(**{'result': 200, 'data': res})
 
 @app.route("/searchEvents/<search_query>", methods=["GET"])
 def getSearchedEvents(search_query):
-    # TODO return all events that reasonably match search query
-    pass
+    # user = man.getUserByName(username)
+    user_skills = [search_query]
+    lemma_skills = set()
+    for skill in user_skills:
+        lemma_skills.add(lemma(skill).lower())
+    recommendation = set()
+    image = set()
+    for i in range(1,data_events.shape[0]):
+        sent =nltk.word_tokenize(data_events['preprocessed'][i])
+
+        for word in sent: 
+            if word in lemma_skills:
+                recommendation.add(i)
+
+    res = []
+    for i, idx in enumerate(recommendation):
+        res.append({ 'name': data_events[data_events.index== idx]['name'].values[0], 'description':data_events[data_events.index== idx]['desc'].values[0],
+                'link':data_events[data_events.index== idx]['link'].values[0],'img':data_events[data_events.index== idx]['img'].values[0],'time':data_events[data_events.index== idx]['time'].values[0], 'loc':data_events[data_events.index== idx]['loc'].values[0] })
+
+    # return json.dumps(res), 201
+    return jsonify(**{'result': 200, 'data': res})
+
+@app.route("/searchEventsAll", methods=["GET"])
+def getSearchedEventsAll():
+    # user = man.getUserByName(username)
+    user_skills = []
+    lemma_skills = set()
+    for skill in user_skills:
+        lemma_skills.add(lemma(skill).lower())
+    recommendation = set()
+    image = set()
+    for i in range(1,data_events.shape[0]):
+        sent =nltk.word_tokenize(data_events['preprocessed'][i])
+
+        for word in sent: 
+            # if word in lemma_skills:
+                recommendation.add(i)
+
+    res = []
+    for i, idx in enumerate(recommendation):
+        res.append({ 'name': data_events[data_events.index== idx]['name'].values[0], 'description':data_events[data_events.index== idx]['desc'].values[0],
+                'link':data_events[data_events.index== idx]['link'].values[0],'img':data_events[data_events.index== idx]['img'].values[0],'time':data_events[data_events.index== idx]['time'].values[0], 'loc':data_events[data_events.index== idx]['loc'].values[0] })
+
+    # return json.dumps(res), 201
+    return jsonify(**{'result': 200, 'data': res})
 
 @app.route("/setUserInfo/<username>", methods=["POST"])
 def setUserInfo(username):
@@ -149,7 +253,8 @@ def setUserInfo(username):
 def not_found(e):
     return app.send_static_file('index.html')
 
-data=pd.read_json('clubs_preprocessed.json')
+data_events=pd.read_json('events_preprocessed.json')
+data_clubs=pd.read_json('clubs_preprocessed.json')
 if __name__ == "__main__":
     # app.run(host='0.0.0.0', debug=False, port=os.environ.get('PORT', 80))
     app.run()

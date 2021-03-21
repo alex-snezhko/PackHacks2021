@@ -4,11 +4,11 @@ import { HiLocationMarker } from "react-icons/hi";
 
 import "./EventInfo.css";
 
-export const EventInfo = ({ name, imgurl, url, date, time, location }) => (
+export const EventInfo = ({ name, img, url, date, time, location }) => (
     <div className="event-info">
         <a href={url}>
             <div className="event-info-img-container">
-                <img src={imgurl} alt={name} />
+                <img src={img} alt={name} />
             </div>
         </a>
         <div style={{marginLeft: "15px"}}>
