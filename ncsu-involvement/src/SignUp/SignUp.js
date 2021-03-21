@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
+import "../Login/Login.css";
+
 export function SignUp(props) {
 
     function handleSignUp(event) {
@@ -15,7 +17,7 @@ export function SignUp(props) {
 
     return (
         <div id="login-block">
-            <h2>Log In</h2>
+            <h2>Sign Up</h2>
             <hr />
             <form onSubmit={handleSignUp}>
                 <input

@@ -1,0 +1,25 @@
+#login-block {
+    margin: 0 auto;
+    width: 600px;
+    text-align: center;
+}
+
+#login-block h2 {
+    text-align: center;
+}
+
+#login-block input[type=submit] {
+    width: 100%;
+    font-size: 20px;
+    padding: 10px;
+}
+
+#login-block input[type=text], #login-block input[type=password] {
+    width: 100%;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+#login-block hr {
+    background-color: black;
+}
