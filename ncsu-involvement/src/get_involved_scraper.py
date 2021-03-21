@@ -40,7 +40,7 @@ with open('links.txt', 'r') as inFile:
 # Incrementally saves clubs
 database = []
 driver = wd.Chrome(executable_path = "C:/Users/selen/chromedriver/chromedriver.exe", options = options)
-for i in range(548, 750):
+for i in range(748, 750):
     print()
     print("current: ", i)
     print()
